@@ -12,4 +12,12 @@ public class TeamScore extends BaseObj {
     private  int wickets;
     private int overs;
     private int balls;
+
+    public boolean isOverBreak() {
+        if (overs > 0 && balls ==0) {
+            return true;
+        }
+
+        return false;
+    }
 }

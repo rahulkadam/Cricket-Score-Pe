@@ -17,15 +17,17 @@ public class CricketScorePeApplication {
     public static void main(String args[]) {
         initializeObj();
         Match match = initializeMatchWithInput();
-        acceptBattingOrderForTeam(match, 1);
-        initBattingForTeam(match, 1);
+        processInning(match, 1);
+        match.getTeam1().setBatting(false);
+        processInning(match, 2);
+        System.out.println("Result :" + liveMatchService.calculateResult(match));
+    }
+
+    public static void processInning(Match match, int teamNumber) {
+        acceptBattingOrderForTeam(match, teamNumber);
+        initBattingForTeam(match, teamNumber);
         startBowlingForTeam(match);
-        showScoreCard(match, 1);
-        System.out.println("Match Player Count:" + match);
-        acceptBattingOrderForTeam(match, 2);
-        initBattingForTeam(match, 2);
-        startBowlingForTeam(match);
-        System.out.println("Match Player Count:" + match);
+        showScoreCard(match, teamNumber);
     }
 
     public static void initializeObj() {
@@ -52,9 +54,11 @@ public class CricketScorePeApplication {
     }
 
     public static void initBattingForTeam(Match match, int teamNumber) {
-        Team team = match.getTeam1();
+        Team team = null;
         if (teamNumber == 2) {
             team = match.getTeam2();
+        } else {
+            team = match.getTeam1();
         }
         team.setBatting(true);
         List<Player> playerList = team.getPlayerList();
@@ -74,7 +78,8 @@ public class CricketScorePeApplication {
             if (!liveMatchService.isBallValid(ball)) {
                 i--;
             }
-            if (liveMatchService.isInningOver(match)) {
+            if (liveMatchService.isInningOver(match) || match.getResult() != null) {
+                liveMatchService.afterInningsTask(match, ball);
                 return;
             }
             if((i+1) %6 == 0 && (i+1)/6 > 0) {
@@ -88,11 +93,14 @@ public class CricketScorePeApplication {
     }
 
     public static void showScoreCard(Match match , int teamNumber) {
-        Team team = match.getTeam1();
-        TeamScore teamScore = match.getTeam1Score();
+        Team team = null;
+        TeamScore teamScore = null;
         if (teamNumber == 2) {
             team = match.getTeam2();
             teamScore = match.getTeam2Score();
+        } else {
+            team = match.getTeam1();
+            teamScore = match.getTeam1Score();
         }
 
         List<Player> players = team.getPlayerList();

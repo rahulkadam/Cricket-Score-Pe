@@ -22,7 +22,7 @@ public class PlayerService {
     public Match addPlayerToTeam2(Match match, String name) {
         Team team = match.getTeam2();
         team.addPlayer(name);
-        match.setTeam1(team);
+        match.setTeam2(team);
         return match;
     }
 }
