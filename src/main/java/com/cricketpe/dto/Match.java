@@ -2,9 +2,11 @@ package com.cricketpe.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
+@ToString
 public class Match {
     private String description;
     private String result;
@@ -14,4 +16,19 @@ public class Match {
     private Team team2;
     private TeamScore team1Score;
     private TeamScore team2Score;
+
+    public Team getBattingTeam() {
+        if (team1.isBatting()) {
+            return team1;
+        }
+        return team2;
+    }
+
+    public TeamScore getBattingTeamScore() {
+        if (team1.isBatting()) {
+            return team1Score;
+        }
+        return team2Score;
+    }
+
 }

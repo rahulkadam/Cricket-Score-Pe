@@ -3,6 +3,7 @@ package com.cricketpe.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,16 @@ public class Team extends BaseObj {
     private boolean isBatting;
     private List<Player> playerList;
 
+    public Team(String name) {
+        this.name = name;
+    }
+
     public void addPlayer(String name) {
         if (playerList == null) {
             playerList = new ArrayList<Player>();
         }
-        playerList.add(new Player(name));
+        Player player = new Player(name);
+        player.setTeam(this);
+        playerList.add(player);
     }
 }

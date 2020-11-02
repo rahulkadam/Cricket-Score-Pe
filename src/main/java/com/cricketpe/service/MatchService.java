@@ -13,8 +13,9 @@ public class MatchService {
     public Match initMatch(int playerCount) {
         Match match = new Match();
         match.setPlayerCount(playerCount);
-        match.setTeam1(new Team());
-        match.setTeam2(new Team());
+        match.setDescription("Team 1 vs Team 2");
+        match.setTeam1(new Team("Team 1"));
+        match.setTeam2(new Team("Team 2"));
         match.setTeam1Score(new TeamScore());
         match.setTeam2Score(new TeamScore());
         return match;
