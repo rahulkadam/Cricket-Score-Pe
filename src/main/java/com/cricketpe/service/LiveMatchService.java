@@ -1,6 +1,7 @@
 package com.cricketpe.service;
 
 import com.cricketpe.dto.Match;
+import com.cricketpe.dto.Player;
 import com.cricketpe.dto.Team;
 import com.cricketpe.dto.TeamScore;
 
@@ -16,7 +17,6 @@ public class LiveMatchService {
         match = addChangeStrike(match, ball);
         match = afterInningsTask(match, ball);
         match = afterMatchTask(match, ball);
-
         return match;
     }
 
@@ -33,10 +33,40 @@ public class LiveMatchService {
     }
 
     public Match addWicket(Match match, String ball) {
+        if (isWicket(ball)) {
+            Team team = match.getBattingTeam();
+            List<Player> batsman = team.getCurrentBatsman();
+            Player first = batsman.get(0);
+            Player second = batsman.get(0);
+            if (first.isOnStrike()) {
+                first.addOut();
+            } else {
+                second.addOut();
+            }
+            team.addNextPlayerForBatting();
+            TeamScore teamScore = match.getBattingTeamScore();
+            teamScore.setWickets(teamScore.getWickets() + 1);
+        }
         return match;
     }
 
     public Match addRuns(Match match, String ball) {
+
+        if (!isWicket(ball) && isBallValid(ball)) {
+            int runs = getRuns(ball);
+            Team team = match.getBattingTeam();
+            List<Player> batsman = team.getCurrentBatsman();
+            Player first = batsman.get(0);
+            Player second = batsman.get(0);
+            if (first.isOnStrike()) {
+                first.addScore(runs);
+            } else {
+                second.addScore(runs);
+            }
+
+            TeamScore teamScore = match.getBattingTeamScore();
+            teamScore.setRuns(teamScore.getRuns() + runs);
+        }
         return match;
     }
 
@@ -90,5 +120,20 @@ public class LiveMatchService {
         list.add("WD");
         list.add("wd");
         return list;
+    }
+
+    public int getRuns(String ball) {
+        try {
+            return Integer.parseInt(ball);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public boolean isWicket(String ball) {
+        if("w".equalsIgnoreCase(ball)) {
+            return true;
+        }
+        return false;
     }
 }

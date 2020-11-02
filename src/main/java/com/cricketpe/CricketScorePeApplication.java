@@ -70,7 +70,7 @@ public class CricketScorePeApplication {
                 System.out.println("Over " + (i/6 + 1) + ":");
             }
             String ball = acceptString();
-            liveMatchService.addBall(match, ball);
+            liveMatchService.recordBall(match, ball);
             if (!liveMatchService.isBallValid(ball)) {
                 i--;
             }
@@ -119,7 +119,11 @@ public class CricketScorePeApplication {
         });
 
         System.out.println("Total : " + teamScore.getRuns() + "/" + teamScore.getWickets());
-        System.out.println("Overs : " + teamScore.getOvers());
+        if (teamScore.getBalls() == 0) {
+            System.out.println("Overs : " + teamScore.getOvers());
+        } else {
+            System.out.println("Overs : " + teamScore.getOvers() + "." + teamScore.getBalls());
+        }
     }
 
     public static int acceptInt(String message){
