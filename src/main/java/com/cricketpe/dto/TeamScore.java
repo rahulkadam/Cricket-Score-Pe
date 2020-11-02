@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class TeamScore extends BaseObj {
     private int runs;
     private  int wickets;
-    private float overs;
+    private int overs;
+    private int balls;
 }

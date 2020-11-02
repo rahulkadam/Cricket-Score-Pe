@@ -11,4 +11,6 @@ public class PlayerScore extends BaseObj {
     private int sixes;
     private int balls;
     private boolean isout;
+    private boolean isPlaying;
+    private boolean isOnStrike;
 }
