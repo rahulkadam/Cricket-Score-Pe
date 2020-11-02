@@ -15,4 +15,22 @@ public class PlayerScore extends BaseObj {
     private boolean isout;
     private boolean isPlaying;
     private boolean isOnStrike;
+
+    public void addScore(int runs) {
+        this.score = this.score + runs;
+        this.balls = this.balls + 1;
+        if (runs == 4) {
+            this.fours++;
+        }
+        if (runs == 6) {
+            this.sixes++;
+        }
+    }
+
+    public void addOut() {
+        this.isout = true;
+        this.isPlaying = false;
+        this.isOnStrike = false;
+        this.balls++;
+    }
 }

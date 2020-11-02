@@ -32,4 +32,12 @@ public class Player extends BaseObj {
     public boolean isOnStrike() {
         return playerScore.isOnStrike();
     }
+
+    public void addScore(int runs) {
+        playerScore.addScore(runs);
+    }
+
+    public void addOut() {
+        playerScore.addOut();
+    }
 }

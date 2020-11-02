@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -26,5 +27,21 @@ public class Team extends BaseObj {
         Player player = new Player(name);
         player.setTeam(this);
         playerList.add(player);
+    }
+
+    public List<Player> getCurrentBatsman() {
+        return playerList.stream().filter(player -> {
+            return player.isPlaying();
+        }).collect(Collectors.toList());
+    }
+
+    public void addNextPlayerForBatting() {
+        Player nextPlayer = playerList.stream()
+                .filter(player -> !player.getPlayerScore().isIsout() && !player.getPlayerScore().isPlaying())
+                .findFirst().orElse(null);
+        if (nextPlayer != null) {
+            nextPlayer.setOnStrike(true);
+            nextPlayer.setPlaying(true);
+        }
     }
 }
