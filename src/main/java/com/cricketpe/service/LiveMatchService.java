@@ -10,37 +10,24 @@ import java.util.List;
 
 public class LiveMatchService {
 
+    /**
+     * Process each Ball and update all other things based on ball score
+     * @param match
+     * @param ball
+     * @return
+     */
     public Match recordBall(Match match, String ball) {
         match = addBall(match, ball);
         match = addRuns(match, ball);
         match = addWicket(match, ball);
         match = addChangeStrike(match, ball);
-        // match = afterInningsTask(match, ball);
-        match = afterMatchTask(match, ball);
         return match;
     }
 
-    public Match afterInningsTask(Match match, String ball) {
+    public Match afterInningsTask(Match match) {
         if (isInningOver(match)) {
             Team team = match.getBattingTeam();
             team.setBatting(false);
-        }
-        return match;
-    }
-
-    public Match afterMatchTask(Match match, String ball) {
-        if (isMatchOver(match)) {
-            TeamScore team1Score = match.getTeam1Score();
-            TeamScore team2Score = match.getTeam2Score();
-
-            int runsDiff = team1Score.getRuns() - team2Score.getRuns();
-            int wicketDiff = match.getPlayerCount() - team2Score.getWickets() - 1;
-            if (runsDiff > 0) {
-                match.setResult("Team 1 won By " + runsDiff + " Runs");
-            } else {
-                match.setResult("Team 2 won By " + wicketDiff + " Wickets");
-            }
-
         }
         return match;
     }
@@ -139,24 +126,6 @@ public class LiveMatchService {
         return false;
     }
 
-    public boolean isMatchOver(Match match) {
-        int playerCount = match.getPlayerCount();
-        int overCount = match.getPlayerCount();
-        TeamScore team1Score = match.getTeam1Score();
-        if (overCount != team1Score.getOvers() && playerCount != team1Score.getWickets() + 1) {
-            return false;
-        }
-
-        TeamScore team2Score = match.getTeam2Score();
-        if (team1Score.getRuns() < team2Score.getRuns()) {
-            return true;
-        }
-        if (overCount != team2Score.getOvers() && playerCount != team2Score.getWickets() + 1) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean isBallValid(String ball) {
         return !getInvalidBallType().contains(ball);
     }
@@ -198,6 +167,11 @@ public class LiveMatchService {
         return false;
     }
 
+    /**
+     * Calculate Result of Match based on score of both team
+     * @param match
+     * @return
+     */
     public String calculateResult(Match match) {
         TeamScore team1Score = match.getTeam1Score();
         TeamScore team2Score = match.getTeam2Score();
