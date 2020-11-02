@@ -1,6 +1,7 @@
 package com.cricketpe.service;
 
 import com.cricketpe.dto.Match;
+import com.cricketpe.dto.Team;
 import com.cricketpe.dto.TeamScore;
 
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ public class LiveMatchService {
         return match;
     }
 
-
     /**
      * add Ball to Team score
      * @param match
@@ -62,6 +62,21 @@ public class LiveMatchService {
             }
         }
         return match;
+    }
+
+    public boolean isInningOver(Match match) {
+        int playerCount = match.getPlayerCount();
+        int overCount = match.getPlayerCount();
+        TeamScore teamScore = match.getBattingTeamScore();
+        if (overCount == teamScore.getOvers()) {
+            return true;
+        }
+
+        if (playerCount == teamScore.getWickets() + 1) {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean isBallValid(String ball) {
