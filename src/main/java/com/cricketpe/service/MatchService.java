@@ -10,6 +10,11 @@ public class MatchService {
         return initMatch(11);
     }
 
+    /**
+     * Init match
+     * @param playerCount
+     * @return
+     */
     public Match initMatch(int playerCount) {
         Match match = new Match();
         match.setPlayerCount(playerCount);
