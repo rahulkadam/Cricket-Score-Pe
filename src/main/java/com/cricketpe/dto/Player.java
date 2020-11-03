@@ -40,4 +40,17 @@ public class Player extends BaseObj {
     public void addOut() {
         playerScore.addOut();
     }
+
+    public boolean isBowling() {
+        return playerScore.isIsbowling();
+    }
+
+    public void addRunConcede(int runs) {
+        playerScore.addRunConcede(runs);
+    }
+
+    public void addWicket() {
+        playerScore.addWicket();
+    }
+
 }

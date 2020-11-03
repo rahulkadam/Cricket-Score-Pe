@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class CricketScorePeApplication {
 
+    // tie
+    // strike change
     public static void main(String args[]) {
         initializeObj();
         Match match = initializeMatchWithInput();
