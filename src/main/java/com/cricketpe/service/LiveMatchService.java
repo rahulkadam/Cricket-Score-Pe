@@ -185,11 +185,15 @@ public class LiveMatchService {
      */
     public boolean shouldChangeStrike(Match match, String ball) {
         TeamScore teamScore = match.getBattingTeamScore();
-        if (teamScore.isOverBreak()) {
+        int i = getRuns(ball);
+        if (teamScore.isOverBreak() && i < 4 && i % 2 == 1) {
+            return false;
+        }
+
+        if (teamScore.isOverBreak() && i < 4 && i % 2 == 0) {
             return true;
         }
 
-        int i = getRuns(ball);
         if (i < 4 && i % 2 == 1) {
             return true;
         }
@@ -209,6 +213,8 @@ public class LiveMatchService {
         int wicketDiff = match.getPlayerCount() - team2Score.getWickets() - 1;
         if (runsDiff > 0) {
             return "Team 1 won By " + runsDiff + " Runs";
+        } else if (runsDiff == 0 ) {
+            return "Match Tied on Both Team scoring " + team1Score.getRuns();
         } else {
             return "Team 2 won By " + wicketDiff + " Wickets";
         }

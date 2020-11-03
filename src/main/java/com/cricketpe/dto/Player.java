@@ -33,6 +33,14 @@ public class Player extends BaseObj {
         return playerScore.isOnStrike();
     }
 
+    public boolean isBowling() {
+        return playerScore.isIsbowling();
+    }
+
+    public void addRunConcede(int runs) {
+        playerScore.addRunConcede(runs);
+    }
+
     public void addScore(int runs) {
         playerScore.addScore(runs);
     }
@@ -40,4 +48,9 @@ public class Player extends BaseObj {
     public void addOut() {
         playerScore.addOut();
     }
+
+    public void addWicket() {
+        playerScore.addWicket();
+    }
+
 }
