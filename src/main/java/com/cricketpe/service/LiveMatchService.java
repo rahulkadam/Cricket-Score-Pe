@@ -131,6 +131,24 @@ public class LiveMatchService {
         return false;
     }
 
+    public boolean isMatchOver(Match match) {
+        int playerCount = match.getPlayerCount();
+        int overCount = match.getPlayerCount();
+        TeamScore team1Score = match.getTeam1Score();
+        if (overCount != team1Score.getOvers() && playerCount != team1Score.getWickets() + 1) {
+            return false;
+        }
+
+        TeamScore team2Score = match.getTeam2Score();
+        if (team1Score.getRuns() < team2Score.getRuns()) {
+            return true;
+        }
+        if (overCount != team2Score.getOvers() && playerCount != team2Score.getWickets() + 1) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean isBallValid(String ball) {
         return !getInvalidBallType().contains(ball);
     }

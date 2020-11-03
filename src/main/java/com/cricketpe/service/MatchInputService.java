@@ -91,7 +91,7 @@ public class MatchInputService {
             if (!liveMatchService.isBallValid(ball)) {
                 i--;
             }
-            if (liveMatchService.isInningOver(match) || match.getResult() != null) {
+            if (liveMatchService.isInningOver(match) || liveMatchService.isMatchOver(match)) {
                 liveMatchService.afterInningsTask(match);
                 return;
             }
