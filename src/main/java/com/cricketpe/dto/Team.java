@@ -18,6 +18,7 @@ public class Team extends BaseObj {
 
     public Team(String name) {
         this.name = name;
+        playerList = new ArrayList<>();
     }
 
     public void addPlayer(String name) {

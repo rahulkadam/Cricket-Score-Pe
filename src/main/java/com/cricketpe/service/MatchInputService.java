@@ -4,7 +4,9 @@ import com.cricketpe.dto.Match;
 import com.cricketpe.dto.Player;
 import com.cricketpe.dto.Team;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MatchInputService {
@@ -28,8 +30,30 @@ public class MatchInputService {
         int playerCount = match.getPlayerCount();
         System.out.println("Batting Order for team " + team + " : ");
         for(int i=0; i< playerCount; i++) {
-            String playerName = acceptString();
+            String playerName = acceptBatsmanName(match, team);
             playerService.addPlayerToTeam(match, team, playerName);
+        }
+    }
+
+    public String acceptBatsmanName(Match match, int team) {
+        if (match.isAutoInput()) {
+            int size = 0;
+            if (team ==1) {
+                if (match.getTeam1()!= null) {
+                    size = match.getTeam1().getPlayerList().size();
+                }
+            }
+            if (team == 2) {
+                if (match.getTeam2()!= null) {
+                    size = match.getTeam2().getPlayerList().size();
+                }
+            }
+            String pName = "Team-" + team + "-" + size;
+            System.out.println(pName);
+            sleep(500);
+            return pName;
+        } else {
+            return acceptString();
         }
     }
 
@@ -62,7 +86,7 @@ public class MatchInputService {
             if (i % 6 == 0) {
                 System.out.println("Over " + (i/6 + 1) + ":");
             }
-            String ball = acceptString();
+            String ball = acceptString(match);
             liveMatchService.recordBall(match, ball);
             if (!liveMatchService.isBallValid(ball)) {
                 i--;
@@ -81,9 +105,51 @@ public class MatchInputService {
         }
     }
 
+    public String acceptString(Match match) {
+        if (match.isAutoInput()) {
+            String ball = pickOneValidBall();
+            System.out.println(ball);
+            sleep(500);
+            return ball;
+        }
+        Scanner sc= new Scanner(System.in);
+        String line = sc.nextLine();
+        return line;
+    }
+
+    public String pickOneValidBall() {
+        Random random = new Random();
+        int number = random.nextInt(1000);
+        int index = number % 9;
+        List<String> ballList = getBallInput();
+        return  ballList.get(index);
+    }
+
+    public List<String> getBallInput() {
+        List<String> list = new ArrayList<String>();
+        list.add("nb");
+        list.add("wd");
+        list.add("w");
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+        list.add("6");
+        return list;
+    }
+
     public static String acceptString() {
         Scanner sc= new Scanner(System.in);
         String line = sc.nextLine();
         return line;
+    }
+
+    public void sleep(int second) {
+        try {
+            Thread.sleep(second);
+        } catch (Exception e) {
+
+        }
     }
 }

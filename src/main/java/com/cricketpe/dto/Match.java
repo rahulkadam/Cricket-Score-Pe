@@ -16,6 +16,7 @@ public class Match {
     private Team team2;
     private TeamScore team1Score;
     private TeamScore team2Score;
+    private boolean autoInput;
 
     public Team getBattingTeam() {
         if (team1.isBatting()) {
