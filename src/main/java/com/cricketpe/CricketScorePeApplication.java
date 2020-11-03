@@ -26,13 +26,17 @@ public class CricketScorePeApplication {
     public static Match initializeMatchWithInput() {
         int playerCount = acceptInt("No. of players for each team");
         int overs = acceptInt("No. of overs");
+        int autoInput = acceptInt("Do you want to take input in Auto Mode : Press (1)");
         Match match = matchService.initMatch(playerCount);
+        if (autoInput == 1) {
+            match.setAutoInput(true);
+        }
         matchService.setOverCount(match, overs);
         return match;
     }
 
-    public static int acceptInt(String message){
-        Scanner sc= new Scanner(System.in);
+    public static int acceptInt(String message) {
+        Scanner sc = new Scanner(System.in);
         System.out.println(message + " : ");
         int number = sc.nextInt();
         return number;

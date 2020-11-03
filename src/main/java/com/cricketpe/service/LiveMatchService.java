@@ -24,6 +24,11 @@ public class LiveMatchService {
         return match;
     }
 
+    /**
+     * Mark batting completed, if innings end
+     * @param match
+     * @return
+     */
     public Match afterInningsTask(Match match) {
         if (isInningOver(match)) {
             Team team = match.getBattingTeam();
@@ -154,6 +159,12 @@ public class LiveMatchService {
         return false;
     }
 
+    /**
+     * will help to take decision regarding strike
+     * @param match
+     * @param ball
+     * @return
+     */
     public boolean shouldChangeStrike(Match match, String ball) {
         TeamScore teamScore = match.getBattingTeamScore();
         if (teamScore.isOverBreak()) {
