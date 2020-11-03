@@ -67,6 +67,13 @@ public class LiveMatchService {
                 second.addOut();
             }
             team.addNextPlayerForBatting();
+
+            // consider team2 bowling team
+            Team bowlingTeam = match.getTeam2();
+            List<Player> bowlersList = bowlingTeam.getCurrentBowler();
+            Player bowler = bowlersList.get(0);
+            bowler.addWicket();
+
             TeamScore teamScore = match.getBattingTeamScore();
             teamScore.setWickets(teamScore.getWickets() + 1);
         }
@@ -78,6 +85,12 @@ public class LiveMatchService {
         if (!isWicket(ball) && isBallValid(ball)) {
             int runs = getRuns(ball);
             Team team = match.getBattingTeam();
+            // consider team2 bowling team
+            Team bowlingTeam = match.getTeam2();
+            List<Player> bowlersList = bowlingTeam.getCurrentBowler();
+            Player bowler = bowlersList.get(0);
+            bowler.addRunConcede(runs);
+
             List<Player> batsman = team.getCurrentBatsman();
             Player first = batsman.get(0);
             Player second = batsman.get(1);

@@ -36,6 +36,12 @@ public class Team extends BaseObj {
         }).collect(Collectors.toList());
     }
 
+    public List<Player> getCurrentBowler() {
+        return playerList.stream().filter(player -> {
+            return player.isBowling();
+        }).collect(Collectors.toList());
+    }
+
     public void addNextPlayerForBatting() {
         Player nextPlayer = playerList.stream()
                 .filter(player -> !player.getPlayerScore().isIsout() && !player.getPlayerScore().isPlaying())
